@@ -27,8 +27,10 @@
         .buttons {
             margin-top: 20px;
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            flex-direction: row;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
         }
         button {
             font-size: 1.8em;
@@ -37,6 +39,7 @@
             border-radius: 15px;
             cursor: pointer;
             transition: 0.3s;
+            position: relative;
         }
         .yes {
             background-color: #ff0000;
@@ -50,12 +53,19 @@
         .no {
             background-color: white;
             color: red;
-            position: absolute;
             font-size: 1.5em;
         }
-        @media (min-width: 600px) {
+        .message {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: white;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        @media (max-width: 600px) {
             .buttons {
-                flex-direction: row;
+                flex-direction: column;
+                gap: 20px;
             }
         }
         @keyframes pulse {
@@ -82,22 +92,51 @@
     <h1>Will You Be My Valentine? 💖</h1>
     <div class="buttons">
         <button class="yes" onclick="showLove()">Yes</button>
-        <button class="no" onmouseover="moveNo()">No</button>
+        <button class="no" id="noButton" onclick="warnNo()" onmouseover="moveNo()">No</button>
     </div>
-    
+    <div id="message" class="message"></div> <!-- Tempat pesan muncul -->
+
     <script>
+        let moveCount = 0; // Menghitung berapa kali tombol "No" sudah lari
+        const maxMoves = 5; // Maksimal lari sebelum berhenti
+        const messageDiv = document.getElementById("message"); // Ambil div untuk pesan
+
         function showLove() {
             document.body.innerHTML = '<h1>Yay! You are my Valentine! ❤️</h1>';
             document.body.style.background = "linear-gradient(to bottom, #ff4e50, #ff758c)";
             createHearts();
         }
-        
+
         function moveNo() {
-            let noButton = document.querySelector('.no');
-            let x = Math.random() * (window.innerWidth - 100);
-            let y = Math.random() * (window.innerHeight - 50);
-            noButton.style.left = `${x}px`;
-            noButton.style.top = `${y}px`;
+            let noButton = document.getElementById('noButton');
+
+            if (moveCount < maxMoves) {
+                let x = Math.random() * (window.innerWidth - 100);
+                let y = Math.random() * (window.innerHeight - 50);
+
+                noButton.style.position = 'absolute';
+                noButton.style.left = `${x}px`;
+                noButton.style.top = `${y}px`;
+
+                moveCount++;
+            }
+        }
+
+        function warnNo() {
+            let messages = [
+                "Are you sure? Why not choose Yes? 💕",
+                "Come on, say Yes! 😍",
+                "You're breaking my heart 💔, choose Yes instead!",
+                "Don't do this... Say Yes! 🥺",
+                "Think again... Maybe Yes is the right choice? 😉",
+                "Valentine’s spirit says YES! 💖",
+                "How can you say no to love? ❤️",
+                "Imagine how happy a Yes would make me! 🥰",
+                "You're making this hard for me 😭, just say Yes!"
+            ];
+
+            let randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            messageDiv.innerHTML = randomMessage; // Munculkan pesan di halaman
         }
 
         function createHearts() {
