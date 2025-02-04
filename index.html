@@ -89,7 +89,7 @@
     </style>
 </head>
 <body>
-    <h1>Will You Be My Valentine? 💖</h1>
+    <h1>Mau Tidak Jadi Valentine Aku? 💖</h1>
     <div class="buttons">
         <button class="yes" onclick="showLove()">Yes</button>
         <button class="no" id="noButton" onclick="warnNo()" onmouseover="moveNo()">No</button>
@@ -98,11 +98,11 @@
 
     <script>
         let moveCount = 0; // Menghitung berapa kali tombol "No" sudah lari
-        const maxMoves = 5; // Maksimal lari sebelum berhenti
+        const maxMoves = 10; // Maksimal lari sebelum berhenti
         const messageDiv = document.getElementById("message"); // Ambil div untuk pesan
 
         function showLove() {
-            document.body.innerHTML = '<h1>Yay! You are my Valentine! ❤️</h1>';
+            document.body.innerHTML = '<h1>ASIK, HAPPY VALENTINE UNTUK KAMU YANG MANIS DAN CANTIK :D ❤️</h1>';
             document.body.style.background = "linear-gradient(to bottom, #ff4e50, #ff758c)";
             createHearts();
         }
@@ -124,15 +124,14 @@
 
         function warnNo() {
             let messages = [
-                "Are you sure? Why not choose Yes? 💕",
-                "Come on, say Yes! 😍",
-                "You're breaking my heart 💔, choose Yes instead!",
-                "Don't do this... Say Yes! 🥺",
-                "Think again... Maybe Yes is the right choice? 😉",
-                "Valentine’s spirit says YES! 💖",
-                "How can you say no to love? ❤️",
-                "Imagine how happy a Yes would make me! 🥰",
-                "You're making this hard for me 😭, just say Yes!"
+                "Yakin? Kok ga mau pencet yes sih? 💕",
+                "Pencet Yes aja dong! 😍",
+                "Sedih sih 💔, pencet Yes aja atuh!",
+                "YES YES YES YES YES! 🥺",
+                "COBA PENCET YES? 😉",
+                "KOK NO SIH :( 😭",
+                "AYOKLAH PENCET YES 🥰",
+                "Apa Susah nya sih pencet YES!"
             ];
 
             let randomMessage = messages[Math.floor(Math.random() * messages.length)];
