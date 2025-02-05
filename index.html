@@ -78,13 +78,16 @@
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 3rem;
-            color: rgba(255, 255, 255, 0.8);
             animation: fall 5s linear infinite;
+            width: 150px; /* Ukuran gambar dikecilkan menjadi 150px */
         }
         @keyframes fall {
             0% { transform: translateY(-100px); opacity: 1; }
             100% { transform: translateY(100vh); opacity: 0; }
+        }
+        #gif {
+            display: none; /* Awalnya tersembunyi */
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -94,15 +97,25 @@
         <button class="yes" id="yesButton" onclick="showLove()">Yes</button>
         <button class="no" id="noButton" onclick="warnNo()">No</button>
     </div>
-    <div id="message" class="message"></div> <!-- Tempat pesan muncul -->
+    <div id="message" class="message"></div>
+
+    <!-- GIF yang akan ditampilkan setelah Yes -->
+    <div id="gif">
+        <img src="./source/cat1.jpg" alt="Happy Valentine" width="300">
+    </div>
 
     <script>
-        let messageDiv = document.getElementById("message"); // Ambil div untuk pesan
+        let messageDiv = document.getElementById("message");
         let yesButton = document.getElementById("yesButton");
         let noButton = document.getElementById("noButton");
         let noClickCount = 0;
 
         function showLove() {
+            // Menampilkan GIF setelah klik Yes
+            let gifContainer = document.getElementById("gif");
+            gifContainer.style.display = "block"; // Tampilkan GIF
+
+            // Menampilkan pesan dan perubahan layout halaman
             document.body.innerHTML = '<h1>❤️ Happy Valentine Yaa Buat Kamu Yang CANTIK, IMUT, dan LUCU. I hope we will meet ASAP 😜☝🏻</h1>';
             document.body.style.background = "linear-gradient(to bottom, #ff4e50, #ff758c)";
             createHearts();
@@ -120,23 +133,22 @@
                 "Apa Susah nya sih pencet YES!"
             ];
             let randomMessage = messages[Math.floor(Math.random() * messages.length)];
-            messageDiv.innerHTML = randomMessage; // Ubah pesan tanpa menumpuk
-
+            messageDiv.innerHTML = randomMessage;
             noClickCount++;
             noButton.style.transform = `scale(${1 - noClickCount * 0.1})`;
             yesButton.style.transform = `scale(${1 + noClickCount * 0.1})`;
         }
 
         function createHearts() {
-            for (let i = 0; i < 20; i++) {
-                let heart = document.createElement('div');
-                heart.innerHTML = '❤️';
+            setInterval(() => {
+                let heart = document.createElement('img');
+                heart.src = './source/cat1.jpg'; // Menggunakan gambar yang sama seperti yang ditampilkan di GIF
                 heart.classList.add('hearts');
                 heart.style.left = Math.random() * 100 + 'vw';
                 heart.style.animationDuration = Math.random() * 3 + 2 + 's';
                 document.body.appendChild(heart);
-                setTimeout(() => heart.remove(), 5000);
-            }
+                setTimeout(() => heart.remove(), 5000); // Menghapus hati setelah 5 detik
+            }, 500); // Interval setiap 500ms untuk membuat hujan gambar terus menerus
         }
     </script>
 </body>
