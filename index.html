@@ -89,37 +89,23 @@
     </style>
 </head>
 <body>
-    <h1>Mau Tidak Jadi Valentine Aku? 💖</h1>
+    <h1>Eh Udah Valentine aja nih Mau Tidak Jadi Valentine Aku? 💖</h1>
     <div class="buttons">
-        <button class="yes" onclick="showLove()">Yes</button>
-        <button class="no" id="noButton" onclick="warnNo()" onmouseover="moveNo()">No</button>
+        <button class="yes" id="yesButton" onclick="showLove()">Yes</button>
+        <button class="no" id="noButton" onclick="warnNo()">No</button>
     </div>
     <div id="message" class="message"></div> <!-- Tempat pesan muncul -->
 
     <script>
-        let moveCount = 0; // Menghitung berapa kali tombol "No" sudah lari
-        const maxMoves = 10; // Maksimal lari sebelum berhenti
-        const messageDiv = document.getElementById("message"); // Ambil div untuk pesan
+        let messageDiv = document.getElementById("message"); // Ambil div untuk pesan
+        let yesButton = document.getElementById("yesButton");
+        let noButton = document.getElementById("noButton");
+        let noClickCount = 0;
 
         function showLove() {
-            document.body.innerHTML = '<h1>ASIK, HAPPY VALENTINE UNTUK KAMU YANG MANIS DAN CANTIK :D ❤️</h1>';
+            document.body.innerHTML = '<h1>❤️ Happy Valentine Yaa Buat Kamu Yang CANTIK, IMUT, dan LUCU. I hope we will meet ASAP 😜☝🏻</h1>';
             document.body.style.background = "linear-gradient(to bottom, #ff4e50, #ff758c)";
             createHearts();
-        }
-
-        function moveNo() {
-            let noButton = document.getElementById('noButton');
-
-            if (moveCount < maxMoves) {
-                let x = Math.random() * (window.innerWidth - 100);
-                let y = Math.random() * (window.innerHeight - 50);
-
-                noButton.style.position = 'absolute';
-                noButton.style.left = `${x}px`;
-                noButton.style.top = `${y}px`;
-
-                moveCount++;
-            }
         }
 
         function warnNo() {
@@ -133,9 +119,12 @@
                 "AYOKLAH PENCET YES 🥰",
                 "Apa Susah nya sih pencet YES!"
             ];
-
             let randomMessage = messages[Math.floor(Math.random() * messages.length)];
-            messageDiv.innerHTML = randomMessage; // Munculkan pesan di halaman
+            messageDiv.innerHTML = randomMessage; // Ubah pesan tanpa menumpuk
+
+            noClickCount++;
+            noButton.style.transform = `scale(${1 - noClickCount * 0.1})`;
+            yesButton.style.transform = `scale(${1 + noClickCount * 0.1})`;
         }
 
         function createHearts() {
