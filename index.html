@@ -79,7 +79,7 @@
             left: 50%;
             transform: translateX(-50%);
             animation: fall 5s linear infinite;
-            width: 150px; /* Ukuran gambar dikecilkan menjadi 150px */
+            width: 50px; /* Ukuran gambar diperbesar menjadi 200px */
         }
         @keyframes fall {
             0% { transform: translateY(-100px); opacity: 1; }
@@ -89,9 +89,19 @@
             display: none; /* Awalnya tersembunyi */
             margin-top: 20px;
         }
+        /* Menambahkan gambar di atas teks */
+        .image-container img {
+            width: 250px; /* Ukuran gambar yang diperbesar */
+            height: auto;
+            margin-bottom: 20px; /* Jarak antara gambar dan teks */
+        }
     </style>
 </head>
 <body>
+    <!-- Gambar yang akan muncul di atas teks -->
+    <div class="image-container">
+        <img src="./source/cat2.jpg" alt="Valentine Image">
+    </div>
     <h1>Eh Udah Valentine aja nih Mau Tidak Jadi Valentine Aku? 💖</h1>
     <div class="buttons">
         <button class="yes" id="yesButton" onclick="showLove()">Yes</button>
@@ -147,7 +157,7 @@
                 heart.style.left = Math.random() * 100 + 'vw';
                 heart.style.animationDuration = Math.random() * 3 + 2 + 's';
                 document.body.appendChild(heart);
-                setTimeout(() => heart.remove(), 5000); // Menghapus hati setelah 5 detik
+                setTimeout(() => heart.remove(), 5000); // Menghapus gambar setelah 5 detik
             }, 500); // Interval setiap 500ms untuk membuat hujan gambar terus menerus
         }
     </script>
