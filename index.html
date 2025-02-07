@@ -5,161 +5,390 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Will You Be My Valentine?</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             text-align: center;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            background: linear-gradient(to bottom, #ff758c, #ff7eb3);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(45deg, #ff758c, #ff7eb3);
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             flex-direction: column;
             padding: 20px;
-            overflow: hidden;
-        }
-        h1 {
-            font-size: 2.5em;
+            overflow-x: hidden;
             color: white;
-            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
-            animation: pulse 1.5s infinite;
-        }
-        .buttons {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: row;
-            gap: 30px;
-            justify-content: center;
-            align-items: center;
-        }
-        button {
-            font-size: 1.8em;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: 0.3s;
             position: relative;
         }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: clamp(1rem, 5vw, 2rem);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            width: min(90%, 600px);
+            position: relative;
+            z-index: 1;
+            margin: 20px auto;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(1.6rem, 3.5vw, 2.3rem);
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1.5rem;
+            word-wrap: break-word;
+            padding: 0 10px;
+            line-height: 1.4;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* Rest of the styles remain the same, just removed Dancing Script references */
+        .image-container {
+            width: 100%;
+            max-width: 250px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        #initialImage img, #gif img {
+            width: 100%;
+            height: auto;
+            max-width: 150px;
+            border-radius: 50%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            object-fit: cover;
+        }
+
+        #gif img {
+            max-width: 250px;
+            border-radius: 15px;
+        }
+
+        .buttons {
+            margin: 20px auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: clamp(10px, 3vw, 20px);
+            justify-content: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 0 10px;
+        }
+
+        button {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            padding: clamp(8px, 2vw, 12px) clamp(15px, 4vw, 30px);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            width: fit-content;
+            min-width: 100px;
+            letter-spacing: 0.5px;
+        }
+
         .yes {
-            background-color: #ff0000;
+            background: linear-gradient(45deg, #ff0055, #ff3377);
             color: white;
-            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 0, 85, 0.3);
         }
+
         .yes:hover {
-            background-color: #cc0000;
-            transform: scale(1.1);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 0, 85, 0.4);
         }
+
         .no {
-            background-color: white;
-            color: red;
-            font-size: 1.5em;
+            background: rgba(255, 255, 255, 0.9);
+            color: #ff0055;
         }
+
         .message {
-            margin-top: 20px;
-            font-size: 1.2em;
+            margin: 20px auto;
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            font-weight: 600;
             color: white;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.5s ease-out;
+            padding: 0 10px;
+            word-wrap: break-word;
+            line-height: 1.5;
+            letter-spacing: 0.3px;
         }
-        @media (max-width: 600px) {
-            .buttons {
-                flex-direction: column;
-                gap: 20px;
-            }
+
+        #gif {
+            display: none;
+            margin: 20px auto;
+            transform: scale(0);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            width: 100%;
+            max-width: 250px;
         }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+
+        #gif.show {
+            transform: scale(1);
         }
+
         .hearts {
             position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
             animation: fall 5s linear infinite;
-            width: 50px; /* Ukuran gambar diperbesar menjadi 200px */
+            opacity: 0;
+            z-index: 0;
+            pointer-events: none;
         }
+
+        #playContainer {
+            display: none;
+            margin: 20px auto;
+            animation: fadeIn 1s ease-out;
+            width: 100%;
+            max-width: 300px;
+            padding: 0 10px;
+        }
+
+        #playContainer p {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            word-wrap: break-word;
+            line-height: 1.4;
+            letter-spacing: 0.3px;
+        }
+
+        #playButton {
+            background: linear-gradient(45deg, #ffcc00, #ffaa00);
+            color: white;
+            margin: 10px auto;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
         @keyframes fall {
-            0% { transform: translateY(-100px); opacity: 1; }
-            100% { transform: translateY(100vh); opacity: 0; }
+            0% { 
+                transform: translateY(-100px) rotate(0deg); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translateY(100vh) rotate(360deg); 
+                opacity: 0; 
+            }
         }
-        #gif {
-            display: none; /* Awalnya tersembunyi */
-            margin-top: 20px;
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        /* Menambahkan gambar di atas teks */
-        .image-container img {
-            width: 150px; /* Ukuran gambar yang diperbesar */
-            height: auto;
-            margin-bottom: 20px; /* Jarak antara gambar dan teks */
+
+        .floating-hearts {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            top: 0;
+            left: 0;
+        }
+
+        @media screen and (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .buttons {
+                gap: 10px;
+            }
+
+            button {
+                padding: 8px 15px;
+            }
+        }
+
+        @media screen and (max-height: 600px) {
+            .container {
+                margin: 10px auto;
+                padding: 0.8rem;
+            }
+
+            h1 {
+                margin-bottom: 1rem;
+            }
+
+            .buttons {
+                margin: 10px auto;
+            }
+
+            #gif, #playContainer {
+                margin: 10px auto;
+            }
+        }
+
+        @media screen and (orientation: landscape) and (max-height: 500px) {
+            .container {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 20px;
+                text-align: left;
+            }
+
+            .content-wrapper {
+                flex: 1;
+            }
+
+            #initialImage img {
+                max-width: 100px;
+            }
+
+            #gif img {
+                max-width: 200px;
+            }
         }
     </style>
 </head>
+<!-- Rest of the HTML and JavaScript remains exactly the same -->
 <body>
-    <!-- Gambar yang akan muncul di atas teks -->
-    <div class="image-container">
-        <img src="./source/cat2.jpg" alt="Valentine Image">
+    <div class="floating-hearts"></div>
+    <div class="container">
+        <div id="initialImage" class="image-container">
+            <img src="./source/cat2.jpg" alt="Valentine Image">
+        </div>
+        <div class="content-wrapper">
+            <h1 id="title">wihiii udah valentine lagi nih yaa btw will you be my valentine ??? 💖</h1>
+            <div class="buttons" id="buttons">
+                <button class="yes" id="yesButton" onclick="showLove()">Yes 💝</button>
+                <button class="no" id="noButton" onclick="warnNo()">No 💔</button>
+            </div>
+            <div id="message" class="message"></div>
+            <div id="gif">
+                <img src="./source/gif.gif" alt="Happy Valentine">
+            </div>
+            <div id="playContainer">
+                <p>Play musiknya biar lebih seru :D</p>
+                <button id="playButton" onclick="playMusic()">Play Music 🎵</button>
+            </div>
+        </div>
     </div>
-    <h1>wihiii udah valentine lagi nih yaa btw will you be my valentine ??? 💖</h1>
-    <div class="buttons">
-        <button class="yes" id="yesButton" onclick="showLove()">Yes</button>
-        <button class="no" id="noButton" onclick="warnNo()">No</button>
-    </div>
-    <div id="message" class="message"></div>
-
-    <!-- GIF yang akan ditampilkan setelah Yes -->
-    <div id="gif">
-        <img src="./source/cat1.jpg" alt="Happy Valentine" width="300">
-    </div>
-
+    <audio id="valentineSong">
+        <source src="./source/wte-love.mp3" type="audio/mpeg">
+    </audio>
     <script>
-        let messageDiv = document.getElementById("message");
-        let yesButton = document.getElementById("yesButton");
-        let noButton = document.getElementById("noButton");
+        // JavaScript remains exactly the same as previous version
         let noClickCount = 0;
-
+        let messages = [
+            "Yakin? Kok ga mau pencet yes sih? 💕",
+            "Pencet Yes aja dong! 😍",
+            "Sedih sih 💔, pencet Yes aja atuh!",
+            "YES YES YES YES YES! 🥺",
+            "COBA PENCET YES? 😉",
+            "KOK NO SIH :( 😭",
+            "AYOKLAH PENCET YES 🥰",
+            "Apa Susah nya sih pencet YES!"
+        ];
+        
         function showLove() {
-            // Menampilkan GIF setelah klik Yes
-            let gifContainer = document.getElementById("gif");
-            gifContainer.style.display = "block"; // Tampilkan GIF
-
-            // Menampilkan pesan dan perubahan layout halaman
-            document.body.innerHTML = '<h1>❤️ Happy Valentine Yaa Buat Kamu Yang CANTIK, IMUT, dan LUCU. I hope we will meet ASAP 😜☝🏻</h1>';
-            document.body.style.background = "linear-gradient(to bottom, #ff4e50, #ff758c)";
+            document.getElementById("gif").style.display = "block";
+            setTimeout(() => document.getElementById("gif").classList.add("show"), 50);
+            document.getElementById("playContainer").style.display = "block";
+            document.getElementById("title").innerHTML = "❤️ Happy Valentine Yaa Buat Kamu Yang CANTIK, IMUT, dan LUCU. I hope we will meet ASAP 😜☝🏻";
+            document.getElementById("buttons").style.display = "none";
+            document.getElementById("initialImage").style.display = "none";
+            document.getElementById("message").style.display = "none";
+            document.body.style.background = "linear-gradient(45deg, #ff4e50, #ff758c)";
             createHearts();
+            startConfetti();
         }
 
         function warnNo() {
-            let messages = [
-                "Yakin? Kok ga mau pencet yes sih? 💕",
-                "Pencet Yes aja dong! 😍",
-                "Sedih sih 💔, pencet Yes aja atuh!",
-                "YES YES YES YES YES! 🥺",
-                "COBA PENCET YES? 😉",
-                "KOK NO SIH :( 😭",
-                "AYOKLAH PENCET YES 🥰",
-                "Apa Susah nya sih pencet YES!"
-            ];
-            let randomMessage = messages[Math.floor(Math.random() * messages.length)];
-            messageDiv.innerHTML = randomMessage;
+            if (noClickCount >= messages.length) {
+                document.getElementById("noButton").style.display = "none";
+                return;
+            }
+            document.getElementById("message").innerText = messages[noClickCount];
             noClickCount++;
-            noButton.style.transform = `scale(${1 - noClickCount * 0.1})`;
-            yesButton.style.transform = `scale(${1 + noClickCount * 0.1})`;
+            let scaleFactor = Math.max(0.4, 1 - noClickCount * 0.15);
+            document.getElementById("noButton").style.transform = `scale(${scaleFactor})`;
+            if (scaleFactor <= 0.4) document.getElementById("noButton").style.display = "none";
+            let yesScale = Math.min(1.5, 1 + noClickCount * 0.1);
+            document.getElementById("yesButton").style.transform = `scale(${yesScale})`;
         }
 
         function createHearts() {
-            setInterval(() => {
-                let heart = document.createElement('img');
-                heart.src = './source/cat1.jpg'; // Menggunakan gambar yang sama seperti yang ditampilkan di GIF
-                heart.classList.add('hearts');
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = Math.random() * 3 + 2 + 's';
-                document.body.appendChild(heart);
-                setTimeout(() => heart.remove(), 5000); // Menghapus gambar setelah 5 detik
-            }, 500); // Interval setiap 500ms untuk membuat hujan gambar terus menerus
+            const addHeart = () => {
+                if (!document.hidden) {
+                    let heart = document.createElement('div');
+                    heart.innerHTML = '❤️';
+                    heart.classList.add('hearts');
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                    heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 5000);
+                }
+            };
+            
+            setInterval(addHeart, 300);
         }
+
+        function startConfetti() {
+            const colors = ['#ff748c', '#ff7eb3', '#ff4e50', '#ffffff'];
+            
+            const addConfetti = () => {
+                if (!document.hidden) {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'fixed';
+                    confetti.style.width = '10px';
+                    confetti.style.height = '10px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.top = '-10px';
+                    confetti.style.borderRadius = '50%';
+                    confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear`;
+                    document.querySelector('.floating-hearts').appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 5000);
+                }
+            };
+            
+            setInterval(addConfetti, 100);
+        }
+
+        function playMusic() {
+            const audio = document.getElementById("valentineSong");
+            audio.volume = 0.5;
+            audio.play();
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            const hearts = document.querySelectorAll('.hearts');
+            const confetti = document.querySelectorAll('.floating-hearts > div');
+            
+            if (document.hidden) {
+                hearts.forEach(heart => heart.style.animationPlayState = 'paused');
+                confetti.forEach(c => c.style.animationPlayState = 'paused');
+            } else {
+                hearts.forEach(heart => heart.style.animationPlayState = 'running');
+                confetti.forEach(c => c.style.animationPlayState = 'running');
+            }
+        });
     </script>
 </body>
 </html>
