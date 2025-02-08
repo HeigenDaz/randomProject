@@ -54,7 +54,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Rest of the styles remain the same, just removed Dancing Script references */
         .image-container {
             width: 100%;
             max-width: 250px;
@@ -153,30 +152,6 @@
             pointer-events: none;
         }
 
-        #playContainer {
-            display: none;
-            margin: 20px auto;
-            animation: fadeIn 1s ease-out;
-            width: 100%;
-            max-width: 300px;
-            padding: 0 10px;
-        }
-
-        #playContainer p {
-            font-size: clamp(1rem, 2.5vw, 1.2rem);
-            font-weight: 600;
-            margin-bottom: 1rem;
-            word-wrap: break-word;
-            line-height: 1.4;
-            letter-spacing: 0.3px;
-        }
-
-        #playButton {
-            background: linear-gradient(45deg, #ffcc00, #ffaa00);
-            color: white;
-            margin: 10px auto;
-        }
-
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
@@ -236,7 +211,7 @@
                 margin: 10px auto;
             }
 
-            #gif, #playContainer {
+            #gif {
                 margin: 10px auto;
             }
         }
@@ -264,7 +239,6 @@
         }
     </style>
 </head>
-<!-- Rest of the HTML and JavaScript remains exactly the same -->
 <body>
     <div class="floating-hearts"></div>
     <div class="container">
@@ -281,17 +255,12 @@
             <div id="gif">
                 <img src="./source/gif.gif" alt="Happy Valentine">
             </div>
-            <div id="playContainer">
-                <p>Play musiknya biar lebih seru :D</p>
-                <button id="playButton" onclick="playMusic()">Play Music 🎵</button>
-            </div>
         </div>
     </div>
     <audio id="valentineSong">
         <source src="./source/wte-love.mp3" type="audio/mpeg">
     </audio>
     <script>
-        // JavaScript remains exactly the same as previous version
         let noClickCount = 0;
         let messages = [
             "Yakin? Kok ga mau pencet yes sih? 💕",
@@ -301,20 +270,28 @@
             "COBA PENCET YES? 😉",
             "KOK NO SIH :( 😭",
             "AYOKLAH PENCET YES 🥰",
-            "Apa Susah nya sih pencet YES!"
+            "Apa Susah nya sih pencet YES!",
+            "Ayolah please pencet YES 🥺",
+            "Jangan NO terus dong 😢",
+            "YES aja susah ya? 💝",
+            "Aku tunggu sampai kamu pencet YES 😊"
         ];
         
         function showLove() {
             document.getElementById("gif").style.display = "block";
             setTimeout(() => document.getElementById("gif").classList.add("show"), 50);
-            document.getElementById("playContainer").style.display = "block";
-            document.getElementById("title").innerHTML = "❤️ Happy Valentine Yaa Buat Kamu Yang CANTIK, IMUT, dan LUCU. I hope we will meet ASAP 😜☝🏻";
+            document.getElementById("title").innerHTML = "❤️ Happy Valentine Yaa Buat Kamu Yang CANTIK, MANIS, IMUT, dan LUCU. I hope we will meet ASAP 😜☝🏻";
             document.getElementById("buttons").style.display = "none";
             document.getElementById("initialImage").style.display = "none";
             document.getElementById("message").style.display = "none";
             document.body.style.background = "linear-gradient(45deg, #ff4e50, #ff758c)";
             createHearts();
             startConfetti();
+            
+            // Automatically play music when Yes is clicked
+            const audio = document.getElementById("valentineSong");
+            audio.volume = 0.5;
+            audio.play();
         }
 
         function warnNo() {
@@ -324,10 +301,14 @@
             }
             document.getElementById("message").innerText = messages[noClickCount];
             noClickCount++;
-            let scaleFactor = Math.max(0.4, 1 - noClickCount * 0.15);
+            
+            // Modified scale calculation for more gradual shrinking
+            let scaleFactor = Math.max(0.2, 1 - (noClickCount * 0.08));
             document.getElementById("noButton").style.transform = `scale(${scaleFactor})`;
-            if (scaleFactor <= 0.4) document.getElementById("noButton").style.display = "none";
-            let yesScale = Math.min(1.5, 1 + noClickCount * 0.1);
+            if (scaleFactor <= 0.2) document.getElementById("noButton").style.display = "none";
+            
+            // Increase Yes button size more gradually
+            let yesScale = Math.min(2.0, 1 + (noClickCount * 0.08));
             document.getElementById("yesButton").style.transform = `scale(${yesScale})`;
         }
 
@@ -369,12 +350,6 @@
             };
             
             setInterval(addConfetti, 100);
-        }
-
-        function playMusic() {
-            const audio = document.getElementById("valentineSong");
-            audio.volume = 0.5;
-            audio.play();
         }
 
         document.addEventListener('visibilitychange', () => {
