@@ -131,6 +131,16 @@
             letter-spacing: 0.3px;
         }
 
+        .yes-message {
+            display: none;
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.5s ease-out;
+            font-weight: 600;
+        }
+
         #gif {
             display: none;
             margin: 20px auto;
@@ -150,6 +160,18 @@
             opacity: 0;
             z-index: 0;
             pointer-events: none;
+        }
+
+        .credit {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.8rem;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            font-family: 'Poppins', sans-serif;
+            opacity: 0.8;
         }
 
         @keyframes float {
@@ -251,11 +273,15 @@
                 <button class="yes" id="yesButton" onclick="showLove()">Yes 💝</button>
                 <button class="no" id="noButton" onclick="warnNo()">No 💔</button>
             </div>
+            <div class="yes-message" id="yesMessage">HAYOLOH CUMAN BISA PENCET YES 😋</div>
             <div id="message" class="message"></div>
             <div id="gif">
                 <img src="./source/gif.gif" alt="Happy Valentine">
             </div>
         </div>
+    </div>
+    <div class="credit">
+        Made by HeigenDazs
     </div>
     <audio id="valentineSong">
         <source src="./source/wte-love.mp3" type="audio/mpeg">
@@ -284,11 +310,11 @@
             document.getElementById("buttons").style.display = "none";
             document.getElementById("initialImage").style.display = "none";
             document.getElementById("message").style.display = "none";
+            document.getElementById("yesMessage").style.display = "none";
             document.body.style.background = "linear-gradient(45deg, #ff4e50, #ff758c)";
             createHearts();
             startConfetti();
             
-            // Automatically play music when Yes is clicked
             const audio = document.getElementById("valentineSong");
             audio.volume = 0.5;
             audio.play();
@@ -297,19 +323,24 @@
         function warnNo() {
             if (noClickCount >= messages.length) {
                 document.getElementById("noButton").style.display = "none";
+                document.getElementById("message").style.display = "none";  // Hide the message
+                document.getElementById("yesMessage").style.display = "block";  // Show the yes-only message
                 return;
             }
             document.getElementById("message").innerText = messages[noClickCount];
             noClickCount++;
             
-            // Modified scale calculation for more gradual shrinking
-            let scaleFactor = Math.max(0.2, 1 - (noClickCount * 0.08));
+            let scaleFactor = Math.max(0.2, 1 - (noClickCount * 0.03));
             document.getElementById("noButton").style.transform = `scale(${scaleFactor})`;
-            if (scaleFactor <= 0.2) document.getElementById("noButton").style.display = "none";
             
-            // Increase Yes button size more gradually
-            let yesScale = Math.min(2.0, 1 + (noClickCount * 0.08));
+            let yesScale = Math.min(2.0, 1 + (noClickCount * 0.03));
             document.getElementById("yesButton").style.transform = `scale(${yesScale})`;
+            
+            if (noClickCount >= 14) {
+                document.getElementById("noButton").style.display = "none";
+                document.getElementById("message").style.display = "none";  // Hide the message
+                document.getElementById("yesMessage").style.display = "block";  // Show the yes-only message
+            }
         }
 
         function createHearts() {
